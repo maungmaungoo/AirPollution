@@ -54,3 +54,18 @@ def preprocessing_one(api_json):
     result["Pressure"] = api_json["results"][0]["pressure"]
     result["AQI"] = int(aqi.to_iaqi(aqi.POLLUTANT_PM25, str(api_json["results"][0]["pm2_5_atm"]), algo=aqi.ALGO_EPA))
     return result
+
+@app.route('api/v1/yangon_weather', methods=['GET'])
+def yangon_weather():
+    weather = get_weather("yangon")
+    return weather
+
+@app.route('api/v1/mandalay_weather', methods=['GET'])
+def mandalay_weather():
+    weather = get_weather("mandalay")
+    return weather
+
+def get_weather(city):
+    weather = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid=43c99395c0a8d27cad1592502a69fd07')
+    weather = weather.json()
+    return jsonify(weather)
