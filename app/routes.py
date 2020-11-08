@@ -11,7 +11,7 @@ def index():
 
 @app.route('/api/v1/purpleair', methods=['GET'])
 def purpleair_all_api():
-    purpleair = requests.get('https://www.purpleair.com/json?show=9578|33329|26359|9618|26285|31425|51727|20389|36553|29855')
+    purpleair = requests.get('https://www.purpleair.com/json?show=9578|33329|26359|9618|26285|31425|51727|20389|36553|29855|33255|34545')
     purpleair = purpleair.json()
     purpleair = preprocessing_all(purpleair)
     return jsonify(purpleair)
