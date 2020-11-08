@@ -1,0 +1,3 @@
+[console_scripts]
+aqi = aqi:console_aqi
+
