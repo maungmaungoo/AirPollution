@@ -68,4 +68,9 @@ def mandalay_weather():
 def get_weather(city):
     weather = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid=43c99395c0a8d27cad1592502a69fd07')
     weather = weather.json()
-    return jsonify(weather)
+    result = {}
+    result["Weather"] = weather["weather"][0]["main"]
+    result["Description"] = weather["weather"][0]["description"]
+    result["Icon"] = f"https://openweathermap.org/img/wn/{weather['weather'][0]['icon']}@2x.png"
+    return jsonify(result)
+
