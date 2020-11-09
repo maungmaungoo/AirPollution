@@ -9,14 +9,14 @@ import aqi
 def index():
     return "Air Pollution Project"
 
-@app.route('/api/v1/purpleair', methods=['GET'])
+@app.route('/api/v1/air', methods=['GET'])
 def purpleair_all_api():
     purpleair = requests.get('https://www.purpleair.com/json?show=9578|33329|26359|9618|26285|31425|51727|20389|36553|29855|33255|34545')
     purpleair = purpleair.json()
     purpleair = preprocessing_all(purpleair)
     return jsonify(purpleair)
 
-@app.route('/api/v1/purpleair/<int:id>', methods=['GET'])
+@app.route('/api/v1/air/<int:id>', methods=['GET'])
 def purpleair_api(id):
     purpleair = requests.get(f'https://www.purpleair.com/json?show={id}')
     purpleair = purpleair.json()
@@ -74,3 +74,16 @@ def get_weather(city):
     result["Icon"] = f"https://openweathermap.org/img/wn/{weather['weather'][0]['icon']}@2x.png"
     return jsonify(result)
 
+@app.errorhandler(404)
+def not_found(e):
+    result = {}
+    result["Code"] = 404
+    result["Message"] = "Not Found"
+    return jsonify(result)
+
+@app.errorhandler(500)
+def server_error(e):
+    result = {}
+    result["Code"] = 500
+    result["Message"] = "Server Error"
+    return jsonify(result)
