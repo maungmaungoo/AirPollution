@@ -14,14 +14,18 @@ def purpleair_all_api():
     purpleair = requests.get('https://www.purpleair.com/json?show=9578|33329|26359|9618|26285|31425|51727|20389|36553|29855|33255|34545')
     purpleair = purpleair.json()
     purpleair = preprocessing_all(purpleair)
-    return jsonify(purpleair)
+    air = jsonify(purpleair)
+    air.headers.add("Access-Control-Allow-Origin", "*")
+    return air
 
 @app.route('/api/v1/air/<int:id>', methods=['GET'])
 def purpleair_api(id):
     purpleair = requests.get(f'https://www.purpleair.com/json?show={id}')
     purpleair = purpleair.json()
     purpleair = preprocessing_one(purpleair)
-    return jsonify(purpleair)
+    air = jsonify(purpleair)
+    air.headers.add("Access-Control-Allow-Origin", "*")
+    return air
 
 def preprocessing_all(api_json):
     result = []
@@ -69,11 +73,13 @@ def preprocessing_one(api_json):
 @app.route('/api/v1/yangon_weather', methods=['GET'])
 def yangon_weather():
     weather = get_weather("yangon")
+    weather.headers.add("Access-Control-Allow-Origin", "*")
     return weather
 
 @app.route('/api/v1/mandalay_weather', methods=['GET'])
 def mandalay_weather():
     weather = get_weather("mandalay")
+    weather.headers.add("Access-Control-Allow-Origin", "*")
     return weather
 
 def get_weather(city):
@@ -90,11 +96,15 @@ def not_found(e):
     result = {}
     result["Code"] = 404
     result["Message"] = "Not Found"
-    return jsonify(result)
+    result = jsonify(result)
+    result.headers.add("Access-Control-Allow-Origin", "*")
+    return result
 
 @app.errorhandler(500)
 def server_error(e):
     result = {}
     result["Code"] = 500
     result["Message"] = "Server Error"
-    return jsonify(result)
+    result = jsonify(result)
+    result.headers.add("Access-Control-Allow-Origin", "*")
+    return result
