@@ -93,12 +93,12 @@ def get_weather(city):
 
 @app.errorhandler(404)
 def not_found(e):
-    result = jsonify("  ")
+    result = jsonify("")
     result.headers.add("Access-Control-Allow-Origin", "*")
     return result, 404
 
 @app.errorhandler(500)
 def server_error(e):
-    result = jsonify("  ")
+    result = jsonify("")
     result.headers.add("Access-Control-Allow-Origin", "*")
     return result, 500
