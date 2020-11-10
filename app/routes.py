@@ -93,18 +93,12 @@ def get_weather(city):
 
 @app.errorhandler(404)
 def not_found(e):
-    result = {}
-    result["Code"] = 404
-    result["Message"] = "Not Found"
-    result = jsonify(result)
+    result = jsonify("  ")
     result.headers.add("Access-Control-Allow-Origin", "*")
-    return result
+    return result, 404
 
 @app.errorhandler(500)
 def server_error(e):
-    result = {}
-    result["Code"] = 500
-    result["Message"] = "Server Error"
-    result = jsonify(result)
+    result = jsonify("  ")
     result.headers.add("Access-Control-Allow-Origin", "*")
-    return result
+    return result, 500
