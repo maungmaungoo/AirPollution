@@ -24,7 +24,8 @@ def purpleair_api(id):
     return jsonify(purpleair)
 
 def preprocessing_all(api_json):
-    result = {}
+    result = []
+    count = 1;
     for apis in api_json["results"]:
         if not "ParentID" in apis:
             one_res = {}
@@ -38,7 +39,13 @@ def preprocessing_all(api_json):
             one_res["Temperature"] = apis["temp_f"]
             one_res["Pressure"] = apis["pressure"]
             one_res["AQI"] = int(aqi.to_iaqi(aqi.POLLUTANT_PM25, str(apis["pm2_5_atm"]), algo=aqi.ALGO_EPA))
-            result[apis["Label"]] = one_res
+            one_res["ID"] = count
+            count = count + 1
+            if "Mandalay" in apis["Label"]:
+                one_res["City"] = "Mandalay"
+            else:
+                one_res["City"] = "Yangon"
+            result.append(one_res)
     return result
 
 def preprocessing_one(api_json):
