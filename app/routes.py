@@ -59,6 +59,10 @@ def preprocessing_one(api_json):
     result["Humidity"] = api_json["results"][0]["humidity"]
     result["Temperature"] = api_json["results"][0]["temp_f"]
     result["Pressure"] = api_json["results"][0]["pressure"]
+    if "Mandalay" in api_json["results"][0]["Label"]:
+        result["City"] = "Mandalay"
+    else:
+        result["City"] = "Yangon"
     result["AQI"] = int(aqi.to_iaqi(aqi.POLLUTANT_PM25, str(api_json["results"][0]["pm2_5_atm"]), algo=aqi.ALGO_EPA))
     return result
 
