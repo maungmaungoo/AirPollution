@@ -16,7 +16,7 @@ def index():
     return "Air Pollution Myanmar"
 
 @app.route('/api/v1/air', methods=['GET'])
-def purpleair_all_api():
+def air():
     purpleair = requests.get('https://www.purpleair.com/json?show=9578|33329|26359|9618|26285|31425|51727|20389|36553|29855|33255|34545')
     purpleair = purpleair.json()
     purpleair = preprocessing_all(purpleair)
@@ -25,7 +25,7 @@ def purpleair_all_api():
     return air
 
 @app.route('/api/v1/air/<int:id>', methods=['GET'])
-def purpleair_api(id):
+def air_id(id):
     purpleair = requests.get(f'https://www.purpleair.com/json?show={id}')
     purpleair = purpleair.json()
     purpleair = preprocessing_one(purpleair)
@@ -98,16 +98,16 @@ def get_weather(city):
     return jsonify(result)
 
 @app.route('/api/v1/pm_monthly', methods=['GET'])
-def monthly_air():
+def pm_monthly():
     result = {}
-    result["Yangon"] = get_m(y_df)
-    result["Mandalay"] = get_m(m_df)
+    result["Yangon"] = get_monthly_pm_values(y_df)
+    result["Mandalay"] = get_monthly_pm_values(m_df)
 
     result = jsonify(result)
     result.headers.add("Access-Control-Allow-Origin", "*")
     return result
 
-def get_m(df):
+def get_monthly_pm_values(df):
     pm2_5 = df.groupby("YM")['PM2.5_ATM_ug/m3'].apply(list).to_dict()
     pm1_0 = df.groupby("YM")['PM1.0_ATM_ug/m3'].apply(list).to_dict()
     pm10_0 = df.groupby("YM")['PM10_ATM_ug/m3'].apply(list).to_dict()
@@ -130,8 +130,37 @@ def get_m(df):
     return result
 
 @app.route('/api/v1/aqi_monthly', methods=['GET'])
-def monthly_aqi():
-    pass
+def aqi_monthly():
+    result = {}
+    result["Yangon"] = get_monthly_aqi(y_df)
+    result["Mandalay"] = get_monthly_aqi(m_df)
+    
+    result = jsonify(result)
+    result.headers.add("Access-Control-Allow-Origin", "*")
+    return result
+
+def get_monthly_aqi(df):
+    date = df.groupby(["YM","Date"])["AQI"].apply(list).to_dict()
+    new = df.groupby(["YM","Date"])["New_cases"].apply(list).to_dict()
+    cul = df.groupby(["YM","Date"])["Cumulative_cases"].apply(list).to_dict()
+    # print(new[('2020 September', '9/26/2020')])
+    result = {}
+    tmp = {}
+    for keys, values in date.items():
+        date = {}
+        aqi_val = {}
+        aqi_val["AQI"] = float("{:.2f}".format(sum(values) / len(values)))
+        new_cases = new[keys]
+        aqi_val["NEW"] = new_cases[0]
+        cumulative = cul[keys]
+        aqi_val["CUL"] = cumulative[0]
+        date[keys[1]] = aqi_val
+        if keys[0] in result:
+            result[keys[0]].update(date)
+        else:
+            result[keys[0]] = date
+    # print(result)
+    return result
 
 @app.errorhandler(404)
 def not_found(e):
