@@ -109,22 +109,62 @@ API: [/api/v1/mandalay_weather](https://myanmarairpollution.herokuapp.com/api/v1
 }
 ```
 
-## ERROR
+## PM1.0, PM2.5 and PM10.0 mean values per month
 
-### 404
+API: [/api/v1/pm_monthly](https://myanmarairpollution.herokuapp.com//api/v1/pm_monthly "Get PM values") ```GET```
+
+**Result**
 
 ```json
 {
-  "Code": 404,
-  "Message": "Not Found"
+  "Mandalay": { //Loaction
+    "2019 December": { //Month
+      "PM1.0": 19.18, //Mean value of PM1.0 for a month
+      "PM10.0": 33.4, //Mean value of PM10.0 for a month
+      "PM2.5": 28.92 //Mean value of PM2.5 for a month
+    },
+    ...
+  }
+  "Yangon": {
+    "2019 December": {
+      "PM1.0": 29.41,
+      "PM10.0": 51.6,
+      "PM2.5": 43.8
+    },
+    ...
+  }
 }
 ```
 
-### 500
+## AQI and Covid 19 cases
+
+API: [/api/v1/aqi_monthly](https://myanmarairpollution.herokuapp.com/api/v1/aqi_monthly "Get AQI and Covid 19 cases") ```GET```
+
+**Result**
 
 ```json
 {
-  "Code": 500,
-  "Message": "Server Error"
+  "Mandalay": {
+    "2019 December": {
+      "12/1/2019": {
+        "AQI": 86.37,
+        "CUL": 0, //New cases
+        "NEW": 0 //Cumulative cases
+      },
+      ...
+    }
+    ...
+  },
+  "Yangon": {
+    "2019 December": {
+      "12/1/2019": {
+        "AQI": 97.38,
+        "CUL": 0,
+        "NEW": 0
+      },
+      ...
+    },
+    ...
+  }
 }
 ```

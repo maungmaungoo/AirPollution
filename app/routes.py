@@ -4,6 +4,8 @@ import requests
 import json
 import aqi
 import pandas as pd
+import joblib
+from datetime import datetime
 
 y_df = pd.read_csv('app/static/data/yangon.csv')
 m_df = pd.read_csv('app/static/data/mandalay.csv')
@@ -134,7 +136,7 @@ def aqi_monthly():
     result = {}
     result["Yangon"] = get_monthly_aqi(y_df)
     result["Mandalay"] = get_monthly_aqi(m_df)
-    
+
     result = jsonify(result)
     result.headers.add("Access-Control-Allow-Origin", "*")
     return result
@@ -161,6 +163,67 @@ def get_monthly_aqi(df):
             result[keys[0]] = date
     # print(result)
     return result
+
+@app.route('/api/v1/predict', methods=['GET'])
+def predict():
+    result = {}
+    loaded_model = joblib.load("app/static/model.sav")
+    month = datetime.now().month
+    season = get_season(month)
+    air = requests.get('https://www.purpleair.com/json?show=9578|33329|26359|9618|26285|31425|51727|20389|36553|29855|33255|34545')
+    air = air.json()
+    air = preprocessing_all(air)
+    for a in air:
+        r = {}
+        city = 1 if a["City"] == "Yangon" else 0
+        center = 0
+        temp = a["Temperature"]
+        humd = a["Humidity"]
+        center = get_center(a["Label"])
+        p_data = [[city, center, month, season, int(temp) , int(humd)]]
+        p_data = pd.DataFrame(p_data, columns=['City', 'Center', 'Month', 'Season', 'Temperature_F', 'Humidity_%'])
+        aqi_p = loaded_model.predict(p_data)
+        r["PM2.5"] = int(float(aqi_p.astype(str)[0]))
+        r["AQI"] = int(aqi.to_iaqi(aqi.POLLUTANT_PM25, str(r["PM2.5"]), algo=aqi.ALGO_EPA))
+        result[a["Label"]] = r
+
+    result = jsonify(result)
+    result.headers.add("Access-Control-Allow-Origin", "*")
+    return result
+
+def get_season(argument):
+    switcher = {
+        1: 0,
+        2: 0,
+        3: 2,
+        4: 2,
+        5: 2,
+        6: 2,
+        7: 1,
+        8: 1,
+        9: 1,
+        10: 1,
+        11: 0,
+        12: 0,
+    }
+    return switcher.get(argument, 3)
+
+def get_center(argument):
+    switcher = {
+        "Mandalay": 0,
+        "7 Miles Mayangone": 1,
+        "American Center Yangon": 3,
+        "Beca Myanmar": 4,
+        "GEMS Condo": 5,
+        "Jefferson Center Mandalay": 6,
+        "Dulwich College Yangon (Pun Hlaing)": 7,
+        "Yangon International School* (Thin Gan Gyun)": 8,
+        "UNOPS Myanmar": 9,
+        "WWF -Myanmar": 10,
+        "YIS Grade 4C": 11,
+        "Yangon-HO": 12,
+    }
+    return switcher.get(argument, 2)
 
 @app.errorhandler(404)
 def not_found(e):
