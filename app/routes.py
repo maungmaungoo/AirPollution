@@ -3,11 +3,17 @@ from flask import jsonify
 import requests
 import json
 import aqi
+import pandas as pd
+
+y_df = pd.read_csv('app/static/data/yangon.csv')
+m_df = pd.read_csv('app/static/data/mandalay.csv')
+y_df["YM"] = y_df["Year"].astype(str) +" "+ y_df["Month"].astype(str)
+m_df["YM"] = m_df["Year"].astype(str) +" "+ m_df["Month"].astype(str)
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Air Pollution Project"
+    return "Air Pollution Myanmar"
 
 @app.route('/api/v1/air', methods=['GET'])
 def purpleair_all_api():
@@ -90,6 +96,42 @@ def get_weather(city):
     result["Description"] = weather["weather"][0]["description"]
     result["Icon"] = f"https://openweathermap.org/img/wn/{weather['weather'][0]['icon']}@2x.png"
     return jsonify(result)
+
+@app.route('/api/v1/pm_monthly', methods=['GET'])
+def monthly_air():
+    result = {}
+    result["Yangon"] = get_m(y_df)
+    result["Mandalay"] = get_m(m_df)
+
+    result = jsonify(result)
+    result.headers.add("Access-Control-Allow-Origin", "*")
+    return result
+
+def get_m(df):
+    pm2_5 = df.groupby("YM")['PM2.5_ATM_ug/m3'].apply(list).to_dict()
+    pm1_0 = df.groupby("YM")['PM1.0_ATM_ug/m3'].apply(list).to_dict()
+    pm10_0 = df.groupby("YM")['PM10_ATM_ug/m3'].apply(list).to_dict()
+
+    months = df["YM"].to_list()
+    months = set(months)
+
+    result = {}
+
+    for month in months:
+        r = {}
+        p1 = sum(pm1_0[month]) / len(pm1_0[month])
+        p2 = sum(pm2_5[month]) / len(pm2_5[month])
+        p10 = sum(pm10_0[month]) / len(pm10_0[month])
+        r["PM1.0"] = float("{:.2f}".format(p1))
+        r["PM2.5"] = float("{:.2f}".format(p2))
+        r["PM10.0"] = float("{:.2f}".format(p10))
+        result[month] = r
+
+    return result
+
+@app.route('/api/v1/aqi_monthly', methods=['GET'])
+def monthly_aqi():
+    pass
 
 @app.errorhandler(404)
 def not_found(e):
