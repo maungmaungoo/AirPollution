@@ -118,6 +118,26 @@ def get_weather(city):
     result["Description"] = weather["weather"][0]["description"]
     # get icon
     result["Icon"] = f"https://openweathermap.org/img/wn/{weather['weather'][0]['icon']}@2x.png"
+
+    aqi_v = {}
+    if city=="yangon":
+        aqi_v[city] = get_monthly_aqi(y_df)
+    else:
+        aqi_v[city] = get_monthly_aqi(m_df)
+    print(aqi_v)
+    for keys, values in aqi_v.items():
+        for k, v in values.items():
+            a = []
+            new = []
+            for val in v.values():
+                a.append(val["AQI"])
+                new.append(val["NEW"])
+    a = float("{:.2f}".format(sum(a) / len(a)))
+    new = float("{:.2f}".format(sum(new) / len(new)))
+
+    result["AQI"] = a
+    result["NEW"] = new
+
     return jsonify(result)
 
 @app.route('/api/v1/pm_monthly', methods=['GET'])
@@ -173,7 +193,6 @@ def get_monthly_aqi(df):
     date = df.groupby(["YM","Date"])["AQI"].apply(list).to_dict()
     new = df.groupby(["YM","Date"])["New_cases"].apply(list).to_dict()
     cul = df.groupby(["YM","Date"])["Cumulative_cases"].apply(list).to_dict()
-
     result = {}
     tmp = {}
     for keys, values in date.items():
@@ -190,7 +209,8 @@ def get_monthly_aqi(df):
             result[keys[0]].update(date)
         else:
             result[keys[0]] = date
- 
+        
+    
     return result
 
 @app.route('/api/v1/predict', methods=['GET'])
