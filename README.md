@@ -195,3 +195,24 @@ API: [/api/v1/aqi_monthly](https://myanmarairpollution.herokuapp.com/api/v1/aqi_
   }
 }
 ```
+
+## AQI and PM2.5 prediction
+
+API: [/api/v1/predict](https://myanmarairpollution.herokuapp.com/api/v1/predict "Get AQI and Covid 19 cases") ```GET```
+
+**Result**
+
+```json
+[
+  {
+    "AQI": 121.8,
+    "Label": "Yangon",
+    "PM2.5": 43.9
+  },
+  {
+    "AQI": 94,
+    "Label": "Mandalay",
+    "PM2.5": 32.5
+  }
+]
+```

@@ -196,7 +196,7 @@ def get_monthly_aqi(df):
 @app.route('/api/v1/predict', methods=['GET'])
 def predict():
     """Predict tomorrow AQI value and PM2.5 value using XGBoost"""
-    result = {}
+    result = {"Yangon":{},"Mandalay":{}}
     # load XGBoost model
     loaded_model = joblib.load("app/static/model.sav")
     # get current month
@@ -208,6 +208,7 @@ def predict():
     air = preprocessing_all(air)
     for a in air:
         r = {}
+        data = {}
         # Yangon = 1, Mandalay = 0
         city = 1 if a["City"] == "Yangon" else 0
         temp = a["Temperature"]
@@ -224,11 +225,27 @@ def predict():
         r["PM2.5"] = int(float(aqi_p.astype(str)[0]))
         # calculate AQI value
         r["AQI"] = int(aqi.to_iaqi(aqi.POLLUTANT_PM25, str(r["PM2.5"]), algo=aqi.ALGO_EPA))
-        result[a["Label"]] = r
+        data[a["Label"]] = r
+        if city:
+            result["Yangon"].update(data)
+        else:
+            result["Mandalay"].update(data)
 
-    result = jsonify(result)
-    result.headers.add("Access-Control-Allow-Origin", "*")
-    return result
+    final = []
+    # calculate average AQI and PM2.5 values
+    for key, values in result.items():
+        a = []
+        pm = []
+        for k, v in values.items():
+            a.append(v["AQI"])
+            pm.append(v["PM2.5"])
+        a = float("{:.2f}".format(sum(a) / len(a)))
+        pm = float("{:.2f}".format(sum(pm) / len(pm)))
+        final.append({"Label": key,"AQI":a, "PM2.5":pm})
+    
+    final = jsonify(final)
+    final.headers.add("Access-Control-Allow-Origin", "*")
+    return final
 
 def get_season(argument):
     # Nov - Feb = Cool season => 0

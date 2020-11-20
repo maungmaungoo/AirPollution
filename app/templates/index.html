@@ -214,6 +214,22 @@
     }
 }
     </code></pre>
+    <h2 id="aqi-and-pm2-5-prediction">AQI and PM2.5 prediction</h2>
+    <p>API: <a href="https://myanmarairpollution.herokuapp.com/api/v1/predict" title="Get AQI and Covid 19 cases">/api/v1/predict</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">[
+    {
+        <span class="hljs-attr">"AQI"</span>: <span class="hljs-number">121.8</span>,
+        <span class="hljs-attr">"Label"</span>: <span class="hljs-string">"Yangon"</span>,
+        <span class="hljs-attr">"PM2.5"</span>: <span class="hljs-number">43.9</span>
+    },
+    {
+        <span class="hljs-attr">"AQI"</span>: <span class="hljs-number">94</span>,
+        <span class="hljs-attr">"Label"</span>: <span class="hljs-string">"Mandalay"</span>,
+        <span class="hljs-attr">"PM2.5"</span>: <span class="hljs-number">32.5</span>
+    }
+]
+    </code></pre>
 
 </body>
 </html>
