@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        table, th, td{
+          border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="air-pollution-myanmar">Air Pollution Myanmar</h1>
+    <p>This documentation explains what you can get from our API.</p>
+    <h2 id="air-pollution-data-in-myanmar">Air Pollution Data in Myanmar</h2>
+    <p>All Data: <a href="https://myanmarairpollution.herokuapp.com/api/v1/air" title="Get all air pollution data">/api/v1/air</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">[
+    {
+        <span class="hljs-string">"AQI"</span>: <span class="hljs-number">93</span>, <span class="hljs-comment">//Air Quality Index</span>
+        <span class="hljs-string">"City"</span>: <span class="hljs-string">"Yangon"</span>, <span class="hljs-comment">//Located City</span>
+        <span class="hljs-string">"Humidity"</span>: <span class="hljs-string">"58"</span>,
+        <span class="hljs-string">"ID"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-string">"Label"</span>: <span class="hljs-string">"7 Mile Mayangone"</span>, <span class="hljs-comment">//Location</span>
+        <span class="hljs-string">"Lat"</span>: <span class="hljs-number">16.856831</span>,
+        <span class="hljs-string">"Lon"</span>: <span class="hljs-number">96.146523</span>,
+        <span class="hljs-string">"PM10_0"</span>: <span class="hljs-string">"38.15"</span>, <span class="hljs-comment">//PM10.0</span>
+        <span class="hljs-string">"PM1_0"</span>: <span class="hljs-string">"22.21"</span>, <span class="hljs-comment">//PM1.0</span>
+        <span class="hljs-string">"PM2_5"</span>: <span class="hljs-string">"32.26"</span>, <span class="hljs-comment">//PM2.5</span>
+        <span class="hljs-string">"Pressure"</span>: <span class="hljs-string">"1009.87"</span>,
+        <span class="hljs-string">"Temperature"</span>: <span class="hljs-string">"90"</span> <span class="hljs-comment">//Ferinheight</span>
+    },
+    {
+        <span class="hljs-string">"AQI"</span>: <span class="hljs-number">135</span>,
+        <span class="hljs-string">"City"</span>: <span class="hljs-string">"Yangon"</span>,
+        <span class="hljs-string">"Humidity"</span>: <span class="hljs-string">"56"</span>,
+        <span class="hljs-string">"ID"</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-string">"Label"</span>: <span class="hljs-string">"American Center Yangon"</span>,
+        <span class="hljs-string">"Lat"</span>: <span class="hljs-number">16.826124</span>,
+        <span class="hljs-string">"Lon"</span>: <span class="hljs-number">96.139805</span>,
+        <span class="hljs-string">"PM10_0"</span>: <span class="hljs-string">"63.21"</span>,
+        <span class="hljs-string">"PM1_0"</span>: <span class="hljs-string">"31.34"</span>,
+        <span class="hljs-string">"PM2_5"</span>: <span class="hljs-string">"49.4"</span>,
+        <span class="hljs-string">"Pressure"</span>: <span class="hljs-string">"1008.86"</span>,
+        <span class="hljs-string">"Temperature"</span>: <span class="hljs-string">"90"</span>
+    },
+    ...
+]
+    </code></pre>
+    <p>Specific Location Data: <a href="https://myanmarairpollution.herokuapp.com/api/v1/air/9578" title="Get all air pollution data from ID 9578">/api/v1/air/{location_id}</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">{
+    <span class="hljs-attr">"AQI"</span>: <span class="hljs-number">95</span>,
+    <span class="hljs-attr">"City"</span>: <span class="hljs-string">"Yangon"</span>,
+    <span class="hljs-attr">"Humidity"</span>: <span class="hljs-string">"58"</span>,
+    <span class="hljs-attr">"Label"</span>: <span class="hljs-string">"7 Mile Mayangone"</span>,
+    <span class="hljs-attr">"Lat"</span>: <span class="hljs-number">16.856831</span>,
+    <span class="hljs-attr">"Lon"</span>: <span class="hljs-number">96.146523</span>,
+    <span class="hljs-attr">"PM10_0"</span>: <span class="hljs-string">"39.41"</span>,
+    <span class="hljs-attr">"PM1_0"</span>: <span class="hljs-string">"22.36"</span>,
+    <span class="hljs-attr">"PM2_5"</span>: <span class="hljs-string">"32.95"</span>,
+    <span class="hljs-attr">"Pressure"</span>: <span class="hljs-string">"1009.9"</span>,
+    <span class="hljs-attr">"Temperature"</span>: <span class="hljs-string">"90"</span>
+}
+    </code></pre>
+    <h3 id="location-ids">Location IDs</h3>
+    <table>
+    <thead>
+    <tr>
+    <th>ID</th>
+    <th>Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>9578</td>
+    <td>7 Mile Mayangone</td>
+    </tr>
+    <tr>
+    <td>33329</td>
+    <td>American Center Yangon</td>
+    </tr>
+    <tr>
+    <td>26359</td>
+    <td>Beca Myanmar</td>
+    </tr>
+    <tr>
+    <td>9618</td>
+    <td>Dulwich College Yangon (Pun Hlaing)</td>
+    </tr>
+    <tr>
+    <td>26285</td>
+    <td>GEMS Condo</td>
+    </tr>
+    <tr>
+    <td>31425</td>
+    <td>UNOPS Myanmar</td>
+    </tr>
+    <tr>
+    <td>51727</td>
+    <td>WWF -Myanmar</td>
+    </tr>
+    <tr>
+    <td>20389</td>
+    <td>Yangon International School* (Thin Gan Gyun)</td>
+    </tr>
+    <tr>
+    <td>36553</td>
+    <td>Yangon-HO</td>
+    </tr>
+    <tr>
+    <td>29855</td>
+    <td>YIS Grade 4C</td>
+    </tr>
+    <tr>
+    <td>33255</td>
+    <td>Jefferson Center Mandalay</td>
+    </tr>
+    <tr>
+    <td>34545</td>
+    <td>Mandalay</td>
+    </tr>
+    </tbody>
+    </table>
+    <h2 id="get-weather-data">Get Weather Data</h2>
+    <h3 id="yangon">Yangon</h3>
+    <p>API: <a href="https://myanmarairpollution.herokuapp.com/api/v1/yangon_weather" title="Get yangon weather data">/api/v1/yangon_weather</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">{
+    <span class="hljs-string">"Description"</span>: <span class="hljs-string">"scattered clouds"</span>,
+    <span class="hljs-string">"Icon"</span>: <span class="hljs-string">"https://openweathermap.org/img/wn/03n@2x.png"</span>, <span class="hljs-comment">//Icon link</span>
+    <span class="hljs-string">"Weather"</span>: <span class="hljs-string">"Clouds"</span> <span class="hljs-comment">//Weather condition</span>
+}
+    </code></pre>
+    <h3 id="mandalay">Mandalay</h3>
+    <p>API: <a href="https://myanmarairpollution.herokuapp.com/api/v1/mandalay_weather" title="Get yangon weather data">/api/v1/mandalay_weather</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">{
+    <span class="hljs-string">"Description"</span>: <span class="hljs-string">"clear sky"</span>,
+    <span class="hljs-string">"Icon"</span>: <span class="hljs-string">"https://openweathermap.org/img/wn/01n@2x.png"</span>, <span class="hljs-comment">//Icon link</span>
+    <span class="hljs-string">"Weather"</span>: <span class="hljs-string">"Clear"</span> <span class="hljs-comment">//Weather condition</span>
+}
+    </code></pre>
+    <h2 id="pm1-0-pm2-5-and-pm10-0-mean-values-per-month">PM1.0, PM2.5 and PM10.0 mean values per month</h2>
+    <p>API: <a href="https://myanmarairpollution.herokuapp.com/api/v1/pm_monthly" title="Get PM values">/api/v1/pm_monthly</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">{
+    <span class="hljs-string">"Mandalay"</span>: { <span class="hljs-comment">//Loaction</span>
+        <span class="hljs-string">"2019 December"</span>: { <span class="hljs-comment">//Month</span>
+        <span class="hljs-string">"PM1.0"</span>: <span class="hljs-number">19.18</span>, <span class="hljs-comment">//Mean value of PM1.0 for a month</span>
+        <span class="hljs-string">"PM10.0"</span>: <span class="hljs-number">33.4</span>, <span class="hljs-comment">//Mean value of PM10.0 for a month</span>
+        <span class="hljs-string">"PM2.5"</span>: <span class="hljs-number">28.92</span> <span class="hljs-comment">//Mean value of PM2.5 for a month</span>
+        },
+        ...
+    }
+    <span class="hljs-string">"Yangon"</span>: {
+        <span class="hljs-string">"2019 December"</span>: {
+        <span class="hljs-string">"PM1.0"</span>: <span class="hljs-number">29.41</span>,
+        <span class="hljs-string">"PM10.0"</span>: <span class="hljs-number">51.6</span>,
+        <span class="hljs-string">"PM2.5"</span>: <span class="hljs-number">43.8</span>
+        },
+        ...
+    }
+}
+    </code></pre>
+    <h2 id="average-aqi-values-per-month">Average AQI values per month</h2>
+    <p>API: <a href="https://myanmarairpollution.herokuapp.com/api/v1/get_center_monthly" title="Get AQI values">/api/v1/get_center_monthly</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">{
+    <span class="hljs-string">"19th Street"</span>: { <span class="hljs-comment">//Location</span>
+        <span class="hljs-string">"2019 December"</span>: <span class="hljs-number">86.37</span>, <span class="hljs-comment">//Each month AQI mean value</span>
+        <span class="hljs-string">"2019 November"</span>: <span class="hljs-number">87.09</span>,
+        <span class="hljs-string">"2019 October"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 April"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 August"</span>: <span class="hljs-number">58.01</span>,
+        <span class="hljs-string">"2020 February"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 January"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 July"</span>: <span class="hljs-number">50.69</span>,
+        <span class="hljs-string">"2020 June"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 March"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 May"</span>: <span class="hljs-number">86.37</span>,
+        <span class="hljs-string">"2020 October"</span>: <span class="hljs-number">79.74</span>,
+        <span class="hljs-string">"2020 September"</span>: <span class="hljs-number">65.25</span>
+    },
+    ...
+}
+    </code></pre>
+    <h2 id="aqi-and-covid-19-cases">AQI and Covid 19 cases</h2>
+    <p>API: <a href="https://myanmarairpollution.herokuapp.com/api/v1/aqi_monthly" title="Get AQI and Covid 19 cases">/api/v1/aqi_monthly</a> <code>GET</code></p>
+    <p><strong>Result</strong></p>
+    <pre><code class="lang-json">{
+    <span class="hljs-string">"Mandalay"</span>: {
+        <span class="hljs-string">"2019 December"</span>: {
+        <span class="hljs-string">"12/1/2019"</span>: {
+            <span class="hljs-string">"AQI"</span>: <span class="hljs-number">86.37</span>,
+            <span class="hljs-string">"CUL"</span>: <span class="hljs-number">0</span>, //New cases
+            <span class="hljs-string">"NEW"</span>: <span class="hljs-number">0</span> //Cumulative cases
+        },
+        ...
+        }
+        ...
+    },
+    <span class="hljs-string">"Yangon"</span>: {
+        <span class="hljs-string">"2019 December"</span>: {
+        <span class="hljs-string">"12/1/2019"</span>: {
+            <span class="hljs-string">"AQI"</span>: <span class="hljs-number">97.38</span>,
+            <span class="hljs-string">"CUL"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-string">"NEW"</span>: <span class="hljs-number">0</span>
+        },
+        ...
+        },
+        ...
+    }
+}
+    </code></pre>
+
+</body>
+</html>

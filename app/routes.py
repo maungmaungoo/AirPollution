@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify
+from flask import jsonify, render_template
 import requests
 import json
 import aqi
@@ -16,7 +16,7 @@ m_df["YM"] = m_df["Year"].astype(str) +" "+ m_df["Month"].astype(str)
 @app.route('/index')
 def index():
     """Index of Myanmar Air Pollution API"""
-    return "Air Pollution Myanmar"
+    return render_template("index.html", title="Air Pollution Myanmar")
 
 @app.route('/api/v1/air', methods=['GET'])
 def air():
