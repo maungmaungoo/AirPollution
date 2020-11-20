@@ -13,7 +13,7 @@ All Data: [/api/v1/air](https://myanmarairpollution.herokuapp.com/api/v1/air "Ge
 [
   {
     "AQI": 93, //Air Quality Index
-    "City": "Yangon", Located City
+    "City": "Yangon", //Located City
     "Humidity": "58",
     "ID": 1,
     "Label": "7 Mile Mayangone", //Location
@@ -111,7 +111,7 @@ API: [/api/v1/mandalay_weather](https://myanmarairpollution.herokuapp.com/api/v1
 
 ## PM1.0, PM2.5 and PM10.0 mean values per month
 
-API: [/api/v1/pm_monthly](https://myanmarairpollution.herokuapp.com//api/v1/pm_monthly "Get PM values") ```GET```
+API: [/api/v1/pm_monthly](https://myanmarairpollution.herokuapp.com/api/v1/pm_monthly "Get PM values") ```GET```
 
 **Result**
 
@@ -133,6 +133,33 @@ API: [/api/v1/pm_monthly](https://myanmarairpollution.herokuapp.com//api/v1/pm_m
     },
     ...
   }
+}
+```
+
+## Average AQI values per month
+
+API: [/api/v1/get_center_monthly](https://myanmarairpollution.herokuapp.com/api/v1/get_center_monthly "Get AQI values") ```GET```
+
+**Result**
+
+```json
+{
+  "19th Street": { //Location
+    "2019 December": 86.37, //Each month AQI mean value
+    "2019 November": 87.09,
+    "2019 October": 86.37,
+    "2020 April": 86.37,
+    "2020 August": 58.01,
+    "2020 February": 86.37,
+    "2020 January": 86.37,
+    "2020 July": 50.69,
+    "2020 June": 86.37,
+    "2020 March": 86.37,
+    "2020 May": 86.37,
+    "2020 October": 79.74,
+    "2020 September": 65.25
+  },
+  ...
 }
 ```
 
