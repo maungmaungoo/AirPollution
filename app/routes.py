@@ -124,9 +124,9 @@ def get_weather(city):
         aqi_v[city] = get_monthly_aqi(y_df)
     else:
         aqi_v[city] = get_monthly_aqi(m_df)
-    print(aqi_v)
-    for keys, values in aqi_v.items():
-        for k, v in values.items():
+    
+    for values in aqi_v.values():
+        for v in values.values():
             a = []
             for val in v.values():
                 a.append(val["AQI"])
@@ -186,9 +186,9 @@ def aqi_monthly():
 
 def get_monthly_aqi(df):
     """Get daily AQI value and Covid 19 cases"""
-    date = df.groupby(["YM","Date"])["AQI"].apply(list).to_dict()
-    new = df.groupby(["YM","Date"])["New_cases"].apply(list).to_dict()
-    cul = df.groupby(["YM","Date"])["Cumulative_cases"].apply(list).to_dict()
+    date = df.groupby(["YM","Date"], sort=False)["AQI"].apply(list).to_dict()
+    new = df.groupby(["YM","Date"], sort=False)["New_cases"].apply(list).to_dict()
+    cul = df.groupby(["YM","Date"], sort=False)["Cumulative_cases"].apply(list).to_dict()
     result = {}
     tmp = {}
     for keys, values in date.items():
