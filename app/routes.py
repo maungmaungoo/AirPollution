@@ -128,15 +128,11 @@ def get_weather(city):
     for keys, values in aqi_v.items():
         for k, v in values.items():
             a = []
-            new = []
             for val in v.values():
                 a.append(val["AQI"])
-                new.append(val["NEW"])
     a = float("{:.2f}".format(sum(a) / len(a)))
-    new = float("{:.2f}".format(sum(new) / len(new)))
 
     result["AQI"] = a
-    result["NEW"] = new
 
     return jsonify(result)
 

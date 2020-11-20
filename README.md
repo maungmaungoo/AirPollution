@@ -92,7 +92,6 @@ API: [/api/v1/yangon_weather](https://myanmarairpollution.herokuapp.com/api/v1/y
   "AQI": 27.68,
   "Description": "scattered clouds",
   "Icon": "https://openweathermap.org/img/wn/03n@2x.png", //Icon link
-  "NEW": 388.33,
   "Weather": "Clouds" //Weather condition
 }
 ```
@@ -108,7 +107,6 @@ API: [/api/v1/mandalay_weather](https://myanmarairpollution.herokuapp.com/api/v1
   "AQI": 60.7,
   "Description": "clear sky",
   "Icon": "https://openweathermap.org/img/wn/01n@2x.png", //Icon link
-  "NEW": 388.33,
   "Weather": "Clear" //Weather condition
 }
 ```
